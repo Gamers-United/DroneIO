@@ -5,5 +5,6 @@ dronecode
    :maxdepth: 4
 
    AngleMeterAlpha
+   DroneIO
    Kalman
    setup
