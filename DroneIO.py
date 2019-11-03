@@ -21,6 +21,7 @@ class DroneIO:
         self.pwm.set_pwm(1, 0, 360)
         self.pwm.set_pwm(2, 0, 360)
         self.pwm.set_pwm(3, 0, 360)
+        self.mpuaccelrange = mpu6050.ACCEL_RANGE_4G
         #bme280
         self.bus = smbus2.SMBus(self.i2cport)
         self.bmecalibration_params = bme280.load_calibration_params(self.bus, self.bmeaddress)
@@ -48,8 +49,22 @@ class DroneIO:
         else:
             self.qmcpollingrate = py_qmc5883l.ODR_50HZ
             return "ERROR"
-    def setAccelRange(self, accel_range):
-        
+    def setAccelRange(self, pollingrate):
+        if pollingrate == "2":
+            self.mpuaccelrange = mpu6050.ACCEL_RANGE_2G
+            return
+        if pollingrate == "4":
+            self.mpuaccelrange = mpu6050.ACCEL_RANGE_4G
+            return
+        if pollingrate == "8":
+            self.mpuaccelrange = mpu6050.ACCEL_RANGE_8G
+            return
+        if pollingrate == "16":
+            self.mpuaccelrange = mpu6050.ACCEL_RANGE_16G
+            return
+        else:
+            self.mpuaccelrange = mpu6050.ACCEL_RANGE_4G
+            return "ERROR"
     def readAccelerometer(self):
         accel_data = self.mpu6050.get_accel_data()
         return accel_data
