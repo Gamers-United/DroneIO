@@ -1,7 +1,9 @@
-docs
-====
+dronecode
+=========
 
 .. toctree::
    :maxdepth: 4
 
-   conf
+   AngleMeterAlpha
+   Kalman
+   setup
