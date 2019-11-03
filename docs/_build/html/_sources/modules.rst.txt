@@ -7,4 +7,6 @@ dronecode
    AngleMeterAlpha
    DroneIO
    Kalman
+   fcntl
    setup
+   smbus
