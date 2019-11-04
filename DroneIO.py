@@ -6,6 +6,7 @@ from mpu6050 import mpu6050
 import py_qmc5883l
 
 class DroneIO:
+    """The Drone IO class is the low level class that provides consolidated low level control methods for use in the higher level DroneControl & Filter classes. It is includes methods for control of all """
     def __init__(self, mpuadd, qmcadd, bmeadd, pwmadd, pwmfrequency):
         self.mpuaddress = mpuadd
         self.qmcaddress = qmcadd
@@ -31,9 +32,10 @@ class DroneIO:
         self.qmc5833lcalibrationdata = [[1.0303, 0.0255, -227.7989],
                                         [0.0255, 1.0214, 1016.4415],
                                         [0.0, 0.0, 1.0]]
-        self.qmc5883L = py_qmc5883l.QMC5833l(output_range=py_qmc5883l.RNG_2G, output_data_rate=self.qmcpollingrate)
+        self.qmc5883L = py_qmc5883l.QMC5883L(output_range=py_qmc5883l.RNG_2G, output_data_rate=self.qmcpollingrate)
 
     def setMagnoPollingRate(self, pollingrate):
+        """Set the polling rate of the QMC-5883l magnetometer. Valid options are '10', '50', '100', '200'. The unit is in hz and the polling rate should arrive as a string."""
         if pollingrate == "10":
             self.qmcpollingrate = py_qmc5883l.ODR_10HZ
             return
@@ -50,20 +52,21 @@ class DroneIO:
             self.qmcpollingrate = py_qmc5883l.ODR_50HZ
             return "ERROR"
     def setAccelRange(self, pollingrate):
+        """Set the accelerometer range of the mpu6050.. Valid options are '2', '4', '8', '16'. The unit is in G's and the accelerometer range should arrive as a string."""
         if pollingrate == "2":
-            self.mpuaccelrange = mpu6050.ACCEL_RANGE_2G
+            self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_2G)
             return
         if pollingrate == "4":
-            self.mpuaccelrange = mpu6050.ACCEL_RANGE_4G
+            self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_4G)
             return
         if pollingrate == "8":
-            self.mpuaccelrange = mpu6050.ACCEL_RANGE_8G
+            self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_8G)
             return
         if pollingrate == "16":
-            self.mpuaccelrange = mpu6050.ACCEL_RANGE_16G
+            self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_16G)
             return
         else:
-            self.mpuaccelrange = mpu6050.ACCEL_RANGE_4G
+            self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_4G)
             return "ERROR"
     def readAccelerometer(self):
         accel_data = self.mpu6050.get_accel_data()
@@ -72,7 +75,7 @@ class DroneIO:
         gyro_data = self.mpu6050.get_gyro_data()
         return gyro_data
     def readMagnetometer(self):
-        magnodata = self.qmc5883L.get_manget()
+        magnodata = self.qmc5883L.get_magnet()
         return magnodata
     def readBarometer(self):
         data = bme280.sample(self.bus, self.bmeaddress, self.bmecalibration_params)
