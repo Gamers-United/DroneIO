@@ -10,7 +10,7 @@ pigpio==1.44
 pyasn1==0.1.9
 pycrypto==2.6.1
 pyserial==3.4
-pyxdg==0.25
+pyxdg==0.26
 PyYAML==5.1.2
 RPi.GPIO==0.6.5
 SecretStorage==2.3.1
