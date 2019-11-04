@@ -1,5 +1,5 @@
-dronecode
-=========
+DroneIO
+=======
 
 .. toctree::
    :maxdepth: 4
