@@ -30,8 +30,84 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="anglemeteralpha-module">
-<h1>AngleMeterAlpha module<a class="headerlink" href="#anglemeteralpha-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-AngleMeterAlpha">
+<span id="anglemeteralpha-module"></span><h1>AngleMeterAlpha module<a class="headerlink" href="#module-AngleMeterAlpha" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="AngleMeterAlpha.AngleMeterAlpha">
+<em class="property">class </em><code class="sig-prename descclassname">AngleMeterAlpha.</code><code class="sig-name descname">AngleMeterAlpha</code><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.DeviceAddress">
+<code class="sig-name descname">DeviceAddress</code><em class="property"> = 104</em><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.DeviceAddress" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.MPU_Init">
+<code class="sig-name descname">MPU_Init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.MPU_Init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.bus">
+<code class="sig-name descname">bus</code><em class="property"> = &lt;smbus2.smbus2.SMBus object&gt;</em><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.bus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.getPitch">
+<code class="sig-name descname">getPitch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.getPitch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.getRoll">
+<code class="sig-name descname">getRoll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.getRoll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.get_complementary_pitch">
+<code class="sig-name descname">get_complementary_pitch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.get_complementary_pitch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.get_complementary_roll">
+<code class="sig-name descname">get_complementary_roll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.get_complementary_roll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.get_int_pitch">
+<code class="sig-name descname">get_int_pitch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.get_int_pitch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.get_int_roll">
+<code class="sig-name descname">get_int_roll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.get_int_roll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.get_kalman_pitch">
+<code class="sig-name descname">get_kalman_pitch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.get_kalman_pitch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.get_kalman_roll">
+<code class="sig-name descname">get_kalman_roll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.get_kalman_roll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.measure">
+<code class="sig-name descname">measure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.measure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.measureAngles">
+<code class="sig-name descname">measureAngles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.measureAngles" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AngleMeterAlpha.AngleMeterAlpha.read_raw_data">
+<code class="sig-name descname">read_raw_data</code><span class="sig-paren">(</span><em class="sig-param">addr</em><span class="sig-paren">)</span><a class="headerlink" href="#AngleMeterAlpha.AngleMeterAlpha.read_raw_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 
 
