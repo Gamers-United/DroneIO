@@ -71,7 +71,7 @@ class DroneIO:
             return "ERROR"
     def setQMCCalibratioNData(self, calibrationarray):
         """Set a new QMC-5883L calibration data array from the output of the magno-calibration scripts."""
-            self.qmc5833lcalibrationdata = calibrationarray
+        self.qmc5833lcalibrationdata = calibrationarray
     def readAccelerometer(self):
         """Read raw accelerometer data from the drone."""
         accel_data = self.mpu6050.get_accel_data()
