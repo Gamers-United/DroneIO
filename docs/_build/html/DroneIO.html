@@ -36,50 +36,73 @@
 <dt id="DroneIO.DroneIO">
 <em class="property">class </em><code class="sig-prename descclassname">DroneIO.</code><code class="sig-name descname">DroneIO</code><span class="sig-paren">(</span><em class="sig-param">mpuadd</em>, <em class="sig-param">qmcadd</em>, <em class="sig-param">bmeadd</em>, <em class="sig-param">pwmadd</em>, <em class="sig-param">pwmfrequency</em><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The Drone IO class is the low level class that provides consolidated low level control methods for use in the higher level DroneControl &amp; Filter classes. It is includes methods for control of all underlying drone componenets. 
+mpuadd is the mpu6050 address in hex format 0x**, same with qmcadd, bmeadd and pwmadd. pwmadd is the PCA9685 address. PWM frequency is equivalent to the pwm frequency in hz. Do not add hz to the input.</p>
 <dl class="method">
 <dt id="DroneIO.DroneIO.readAccelerometer">
 <code class="sig-name descname">readAccelerometer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.readAccelerometer" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Read raw accelerometer data from the drone.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="DroneIO.DroneIO.readBarometer">
 <code class="sig-name descname">readBarometer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.readBarometer" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Read raw barometer data from the BME280.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="DroneIO.DroneIO.readGyroscope">
 <code class="sig-name descname">readGyroscope</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.readGyroscope" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Read raw gyroscope data from the drone.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="DroneIO.DroneIO.readHumidity">
 <code class="sig-name descname">readHumidity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.readHumidity" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Read raw humidity data from the BME280.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="DroneIO.DroneIO.readMagnetometer">
 <code class="sig-name descname">readMagnetometer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.readMagnetometer" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Read raw magnetometer data from the QMC5883L.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="DroneIO.DroneIO.readTemperature">
 <code class="sig-name descname">readTemperature</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.readTemperature" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Read raw temperature data from the BME280.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="DroneIO.DroneIO.setAccelRange">
-<code class="sig-name descname">setAccelRange</code><span class="sig-paren">(</span><em class="sig-param">pollingrate</em><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.setAccelRange" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">setAccelRange</code><span class="sig-paren">(</span><em class="sig-param">accelmaxg</em><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.setAccelRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the accelerometer range of the mpu6050.. Valid options are ‘2’, ‘4’, ‘8’, ‘16’. The unit is in G’s and the accelerometer range should arrive as a string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneIO.DroneIO.setGyroRange">
+<code class="sig-name descname">setGyroRange</code><span class="sig-paren">(</span><em class="sig-param">gyromaxdeg</em><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.setGyroRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the maximum gyroscope rotation rate per second. Valid options are ‘250’, ‘500’, ‘1000’, ‘2000’. The unit is degrees, and range should arrive as a string.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="DroneIO.DroneIO.setMagnoPollingRate">
 <code class="sig-name descname">setMagnoPollingRate</code><span class="sig-paren">(</span><em class="sig-param">pollingrate</em><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.setMagnoPollingRate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set the polling rate of the QMC-5883l magnetometer. Valid options are ‘10’, ‘50’, ‘100’, ‘200’. The unit is in hz and the polling rate should arrive as a string.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="DroneIO.DroneIO.setPWM">
 <code class="sig-name descname">setPWM</code><span class="sig-paren">(</span><em class="sig-param">gpio</em>, <em class="sig-param">time</em><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.setPWM" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set a PWM pin’s on time in ms. gpio is the output pin of the PCA-9685 to use, 1-16 ands the time is the ontime in ms.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneIO.DroneIO.setQMCCalibratioNData">
+<code class="sig-name descname">setQMCCalibratioNData</code><span class="sig-paren">(</span><em class="sig-param">calibrationarray</em><span class="sig-paren">)</span><a class="headerlink" href="#DroneIO.DroneIO.setQMCCalibratioNData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a new QMC-5883L calibration data array from the output of the magno-calibration scripts.</p>
+</dd></dl>
 
 </dd></dl>
 
