@@ -52,22 +52,39 @@ class DroneIO:
         else:
             self.qmcpollingrate = py_qmc5883l.ODR_50HZ
             return "ERROR"
-    def setAccelRange(self, pollingrate):
+    def setAccelRange(self, accelmaxg):
         """Set the accelerometer range of the mpu6050.. Valid options are '2', '4', '8', '16'. The unit is in G's and the accelerometer range should arrive as a string."""
-        if pollingrate == "2":
+        if accelmaxg == "2":
             self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_2G)
             return
-        if pollingrate == "4":
+        if accelmaxg == "4":
             self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_4G)
             return
-        if pollingrate == "8":
+        if accelmaxg == "8":
             self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_8G)
             return
-        if pollingrate == "16":
+        if accelmaxg == "16":
             self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_16G)
             return
         else:
             self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_4G)
+            return "ERROR"
+    def setGyroRange(self, gyromaxdeg):
+        """Set the maximum gyroscope rotation rate per second. Valid options are '250', '500', '1000', '2000'. The unit is degrees, and range should arrive as a string."""
+        if gyromaxdeg == "250":
+            self.mpu6050.set_gyro_range(self.mpu6050.GYRO_RANGE_250DEG)
+            return
+        if gyromaxdeg == "500":
+            self.mpu6050.set_gyro_range(self.mpu6050.GYRO_RANGE_500DEG)
+            return
+        if gyromaxdeg == "1000":
+            self.mpu6050.set_gyro_range(self.mpu6050.GYRO_RANGE_500DEG)
+            return
+        if gyromaxdeg == "2000":
+            self.mpu6050.set_gyro_range(self.mpu6050.GYRO_RANGE_500DEG)
+            return
+        else:
+            self.mpu6050.set_gyro_range(self.mpu6050.GYRO_RANGE_500DEG)
             return "ERROR"
     def setQMCCalibratioNData(self, calibrationarray):
         """Set a new QMC-5883L calibration data array from the output of the magno-calibration scripts."""
@@ -97,7 +114,7 @@ class DroneIO:
         data = bme280.sample(self.bus, self.bmeaddress, self.bmecalibration_params)
         return data.humidity
     def setPWM(self, gpio, time):
-        "Set a PWM pin's on time in ms. gpio is the output pin of the PCA-9685 to use, 1-16 and the time is the ontime in ms."
+        "Set a PWM pin's on time in ms. gpio is the output pin of the PCA-9685 to use, 1-16 ands the time is the ontime in ms."
         maxNum = time / (1000000/4096/60)
         self.pwm.set_pwm(gpio, 0, maxNum)
         print("Motor at Pin "+gpio+" is at duty cycle 0 to "+maxNum)
