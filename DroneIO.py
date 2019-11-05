@@ -4,6 +4,7 @@ import Adafruit_PCA9685
 import bme280
 from mpu6050 import mpu6050
 import py_qmc5883l
+import AngleMeterAlpha
 
 class DroneIO:
     """The Drone IO class is the low level class that provides consolidated low level control methods for use in the higher level DroneControl & Filter classes. It is includes methods for control of all underlying drone componenets. 
@@ -34,6 +35,10 @@ class DroneIO:
                                         [0.0255, 1.0214, 1016.4415],
                                         [0.0, 0.0, 1.0]]
         self.qmc5883L = py_qmc5883l.QMC5883L(output_range=py_qmc5883l.RNG_2G, output_data_rate=self.qmcpollingrate)
+        #init kalman filtered mpu
+        self.kalmanfilter = AngleMeterAlpha.AngleMeterAlpha()
+        self.kalmanfilter.MPU_Init()
+        self.kalmanfilter.measure()
 
     def setMagnoPollingRate(self, pollingrate):
         """Set the polling rate of the QMC-5883l magnetometer. Valid options are '10', '50', '100', '200'. The unit is in hz and the polling rate should arrive as a string."""
@@ -97,6 +102,10 @@ class DroneIO:
         """Read raw gyroscope data from the drone."""
         gyro_data = self.mpu6050.get_gyro_data()
         return gyro_data
+    def readKalmanPitch(self):
+        return self.kalmanfilter.pitch
+    def readKalmanRoll(self):
+        return self.kalmanfilter.roll
     def readMagnetometer(self):
         """Read raw magnetometer data from the QMC5883L."""
         magnodata = self.qmc5883L.get_magnet()
