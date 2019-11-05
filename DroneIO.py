@@ -69,7 +69,7 @@ class DroneIO:
         else:
             self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_4G)
             return "ERROR"
-    def setQMCCalibratioNData(self, calibrationarray)
+    def setQMCCalibratioNData(self, calibrationarray):
         """Set a new QMC-5883L calibration data array from the output of the magno-calibration scripts."""
             self.qmc5833lcalibrationdata = calibrationarray
     def readAccelerometer(self):
