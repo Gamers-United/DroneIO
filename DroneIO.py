@@ -6,7 +6,8 @@ from mpu6050 import mpu6050
 import py_qmc5883l
 
 class DroneIO:
-    """The Drone IO class is the low level class that provides consolidated low level control methods for use in the higher level DroneControl & Filter classes. It is includes methods for control of all """
+    """The Drone IO class is the low level class that provides consolidated low level control methods for use in the higher level DroneControl & Filter classes. It is includes methods for control of all underlying drone componenets. 
+       mpuadd is the mpu6050 address in hex format 0x**, same with qmcadd, bmeadd and pwmadd. pwmadd is the PCA9685 address. PWM frequency is equivalent to the pwm frequency in hz. Do not add hz to the input."""
     def __init__(self, mpuadd, qmcadd, bmeadd, pwmadd, pwmfrequency):
         self.mpuaddress = mpuadd
         self.qmcaddress = qmcadd
@@ -68,25 +69,35 @@ class DroneIO:
         else:
             self.mpu6050.set_accel_range(self.mpu6050.ACCEL_RANGE_4G)
             return "ERROR"
+    def setQMCCalibratioNData(self, calibrationarray)
+        """Set a new QMC-5883L calibration data array from the output of the magno-calibration scripts."""
+            self.qmc5833lcalibrationdata = calibrationarray
     def readAccelerometer(self):
+        """Read raw accelerometer data from the drone."""
         accel_data = self.mpu6050.get_accel_data()
         return accel_data
     def readGyroscope(self):
+        """Read raw gyroscope data from the drone."""
         gyro_data = self.mpu6050.get_gyro_data()
         return gyro_data
     def readMagnetometer(self):
+        """Read raw magnetometer data from the QMC5883L."""
         magnodata = self.qmc5883L.get_magnet()
         return magnodata
     def readBarometer(self):
+        """Read raw barometer data from the BME280."""
         data = bme280.sample(self.bus, self.bmeaddress, self.bmecalibration_params)
         return data.pressure
     def readTemperature(self):
+        """Read raw temperature data from the BME280."""
         data = bme280.sample(self.bus, self.bmeaddress, self.bmecalibration_params)
         return data.temperature
     def readHumidity(self):
+        """Read raw humidity data from the BME280."""
         data = bme280.sample(self.bus, self.bmeaddress, self.bmecalibration_params)
         return data.humidity
     def setPWM(self, gpio, time):
+        "Set a PWM pin's on time in ms. gpio is the output pin of the PCA-9685 to use, 1-16 and the time is the ontime in ms."
         maxNum = time / (1000000/4096/60)
         self.pwm.set_pwm(gpio, 0, maxNum)
         print("Motor at Pin "+gpio+" is at duty cycle 0 to "+maxNum)
