@@ -133,8 +133,8 @@ class DroneIO:
         return
 
 class DroneControl:
+    """Drone Control Class. Provides high level methods to the low level methods contained in DroneIO, also provides output in the nicest possible fashion"""
     def __init__(self):
-        """Drone Control Class. Provides high level methods to the low level methods contained in DroneIO, also provides output in the nicest possible fashion"""
         self.mpuadd = 0x68
         self.qmcadd = 0x0D
         self.bmeadd = 0x76
