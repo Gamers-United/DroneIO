@@ -39,13 +39,14 @@ class DroneIO:
         self.kalmanfilter = AngleMeterAlpha.AngleMeterAlpha()
         self.kalmanfilter.MPU_Init()
         self.kalmanfilter.measure()
+        
 
     def setMagnoPollingRate(self, pollingrate):
         """Set the polling rate of the QMC-5883l magnetometer. Valid options are '10', '50', '100', '200'. The unit is in hz and the polling rate should arrive as a string."""
         if pollingrate == "10":
             self.qmcpollingrate = py_qmc5883l.ODR_10HZ
             return
-        if pollingrate == "50":
+        if pollingrate == "50": 
             self.qmcpollingrate = py_qmc5883l.ODR_50HZ
             return
         if pollingrate == "100":
@@ -83,10 +84,10 @@ class DroneIO:
             self.mpu6050.set_gyro_range(self.mpu6050.GYRO_RANGE_500DEG)
             return
         if gyromaxdeg == "1000":
-            self.mpu6050.set_gyro_range(self.mpu6050.GYRO_RANGE_500DEG)
+            self.mpu6050.set_gyro_range(self.mpu6050.GYRO_RANGE_1000DEG)
             return
         if gyromaxdeg == "2000":
-            self.mpu6050.set_gyro_range(self.mpu6050.GYRO_RANGE_500DEG)
+            self.mpu6050.set_gyro_range(self.mpu6050.GYRO_RANGE_2000DEG)
             return
         else:
             self.mpu6050.set_gyro_range(self.mpu6050.GYRO_RANGE_500DEG)
@@ -103,8 +104,10 @@ class DroneIO:
         gyro_data = self.mpu6050.get_gyro_data()
         return gyro_data
     def readKalmanPitch(self):
+        """Read Kalman filtered pitch in degrees"""
         return self.kalmanfilter.pitch
     def readKalmanRoll(self):
+        """Read Kalman filtered roll in degrees"""
         return self.kalmanfilter.roll
     def readMagnetometer(self):
         """Read raw magnetometer data from the QMC5883L."""
@@ -123,9 +126,52 @@ class DroneIO:
         data = bme280.sample(self.bus, self.bmeaddress, self.bmecalibration_params)
         return data.humidity
     def setPWM(self, gpio, time):
-        "Set a PWM pin's on time in ms. gpio is the output pin of the PCA-9685 to use, 1-16 ands the time is the ontime in ms."
+        "Set a PWM pin's on time in ms. gpio is the output pin of the PCA-9685 to use, 1-16 and the time is the ontime in ms."
         maxNum = time / (1000000/4096/60)
         self.pwm.set_pwm(gpio, 0, maxNum)
         print("Motor at Pin "+gpio+" is at duty cycle 0 to "+maxNum)
         return
 
+class DroneControl:
+    def __init__(self):
+        """Drone Control Class. Provides high level methods to the low level methods contained in DroneIO, also provides output in the nicest possible fashion"""
+        self.mpuadd = 0x68
+        self.qmcadd = 0x0D
+        self.bmeadd = 0x76
+        self.pcaadd = 0x40
+        self.pwmfrequency = 50
+        self.droneio = DroneIO(self.mpuadd, self.qmcadd, self.bmeadd, self.pcaadd, self.pwmfrequency)
+
+    def AccelX(self):
+        """Returns Accelerometer X Value in m/s^2"""
+        threeaxis = self.droneio.readAccelerometer()
+        return threeaxis['x']
+    def AccelY(self):
+        """Returns Accelerometer Y Value in m/s^2"""
+        threeaxis = self.droneio.readAccelerometer()
+        return threeaxis['y']
+    def AccelZ(self):
+        """Returns Accelerometer Z Value in m/s^2"""
+        threeaxis = self.droneio.readAccelerometer()
+        return threeaxis['z']
+    def GyroX(self):
+        """Returns Gyroscope X Value in degrees/second"""
+        threeaxis = self.droneio.readGyroscope()
+        return threeaxis['x']
+    def GyroY(self):
+        """Returns Gyroscope Y Value in degrees/second"""
+        threeaxis = self.droneio.readGyroscope()
+        return threeaxis['y']
+    def GyroZ(self):
+        """Returns Gyroscope Z Value in degrees/second"""
+        threeaxis = self.droneio.readGyroscope()
+        return threeaxis['z']
+    def BaroP(self):
+        """Returns barometer pressure in hPa"""
+        return self.droneio.readBarometer()
+    def BaroT(self):
+        """Returns barometer temperature in hPa"""
+        return self.droneio.readTemperature()
+    def BaroH(self):
+        """Returns barometer humidity in hPa"""
+        return self.droneio.readHumidity()      
