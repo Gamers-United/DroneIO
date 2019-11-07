@@ -1,11 +1,14 @@
+#import libraries
 import DroneIO
 import time
 import sys
 import zmq
+from twisted.internet import task, reactor
 # setup all variables, functions / one time setup:
 stream = zmq.Context()
 socket = stream.socket(zmq.REP)
 socket.bind("tcp://*:5555")
+timeout = 0.01
 
 #called when W key pressed on controlling computer
 def WKey():
@@ -25,17 +28,16 @@ def DKey():
     return
 
 
-
-
 #store starting time
 starttime=time.time()
 # begin function loop
-while True:
+def MainLoop():
     incoming = socket.recv()
     print("Received MSG: %s" % incoming)
 
 
+#begin MainLoop cycle
+taskloop = task.LoopingCall(MainLoop)
+taskloop.start(timeout)
 
-
-    #wait 1/100th of a second between executions:
-    time.sleep(0.1 - ((time.time() - starttime) % 60.0))
+reactor.run()
