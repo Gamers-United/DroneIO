@@ -11,11 +11,7 @@ print("Starting up on "+str(server_address))
 sock.bind(server_address)
 timeout = 0.01
 sock.listen(1)
-i=100
-while i > 0:
-    print("Waiting For Connection")
-    connection, client_address = sock.accept()
-    i = i - 1
+connection, client_address = sock.accept()
 
 #called when W key pressed on controlling computer
 def WKey():
