@@ -12,6 +12,8 @@ sock.bind(server_address)
 timeout = 0.01
 sock.listen(2)
 connection, client_address = sock.accept()
+drone = DroneIO.DroneControl()
+
 
 #called when W key pressed on controlling computer
 def WKey():
@@ -37,7 +39,18 @@ def ZKey():
 def XKey():
 
     return
+#For Processing Accelerometer data
+def processAccel():
 
+    return
+#For Processing Gyro data
+def processGyro():
+
+    return
+#For Processing Barometer data
+def processBaro():
+
+    return
 
 #store starting time
 starttime=time.time()
@@ -59,6 +72,9 @@ def MainLoop():
         XKey()
     if message == "z":
         ZKey()
+    processGyro(drone)
+    processAccel(drone)
+    processBaro(drone)
 
 #begin MainLoop cycle
 taskloop = task.LoopingCall(MainLoop)
