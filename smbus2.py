@@ -1,4 +1,3 @@
 class SMBus:
-    def __init__(self, bus):
-        x = 1
-        return
+	def __init__(self, busid):
+		return	
