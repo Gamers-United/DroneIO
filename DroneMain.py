@@ -7,10 +7,15 @@ from twisted.internet import task, reactor
 # setup all variables, functions / one time setup:
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_address = ('localhost', 5555)
+print("Starting up on %s" % server_address)
 sock.bind(server_address)
 timeout = 0.01
 sock.listen(1)
-connection, client_address = sock.accept()
+i=1000
+while i>=0:
+    print("Waiting For Connection")
+    connection, client_address = sock.accept()
+    i = i - 1
 
 #called when W key pressed on controlling computer
 def WKey():
