@@ -29,6 +29,14 @@ def AKey():
 def DKey():
 
     return
+#called when Z key pressed on controlling computer
+def ZKey():
+
+    return
+#called when X key pressed on controlling computer
+def XKey():
+
+    return
 
 
 #store starting time
@@ -37,7 +45,20 @@ starttime=time.time()
 def MainLoop():
     incoming = connection.recv(1024)
     print("Received MSG: %s" % incoming.decode('utf-8'))
-
+    message = incoming.decode('utf-8')
+    #check all keys pressed
+    if message == "w":
+        WKey()
+    if message == "a":
+        AKey()
+    if message == "s":
+        SKey()
+    if message == "d":
+        DKey()
+    if message == "x":
+        XKey()
+    if message == "z":
+        ZKey()
 
 #begin MainLoop cycle
 taskloop = task.LoopingCall(MainLoop)
