@@ -113,6 +113,13 @@ class DroneIO:
         """Read raw magnetometer data from the QMC5883L."""
         magnodata = self.qmc5883L.get_magnet()
         return magnodata
+    def readBearing(self):
+        """Get raw non-declinaction correct bearing from QMC5883L."""
+        return self.qmc5883L.get_bearing()
+    def setMagnoDeclination(self, declination):
+        """Set the magnetic declination used when calculating bearing or reading raw X,y data from the QMC5883l."""
+        self.qmc5883L.declination = declination
+        return
     def readBarometer(self):
         """Read raw barometer data from the BME280."""
         data = bme280.sample(self.bus, self.bmeaddress, self.bmecalibration_params)
@@ -126,7 +133,7 @@ class DroneIO:
         data = bme280.sample(self.bus, self.bmeaddress, self.bmecalibration_params)
         return data.humidity
     def setPWM(self, gpio, time):
-        "Set a PWM pin's on time in ms. gpio is the output pin of the PCA-9685 to use, 1-16 and the time is the ontime in ms."
+        "Set a PWM pin's on time in ms. gpio is the output pin of the PCA-9685 to use, 1-16 and the time is the ontime in ms. Ontime's between 1 and 20 ms are supported. 1ms is no throttle, 20ms full throttle."
         maxNum = time / (1000000/4096/60)
         self.pwm.set_pwm(gpio, 0, maxNum)
         print("Motor at Pin "+gpio+" is at duty cycle 0 to "+maxNum)
@@ -140,6 +147,10 @@ class DroneControl:
         self.bmeadd = 0x76
         self.pcaadd = 0x40
         self.pwmfrequency = 50
+        self.motorone = 0
+        self.motortwo = 0
+        self.motorthree = 0
+        self.motorfour = 0
         self.droneio = DroneIO(self.mpuadd, self.qmcadd, self.bmeadd, self.pcaadd, self.pwmfrequency)
 
     def AccelX(self):
@@ -174,4 +185,27 @@ class DroneControl:
         return self.droneio.readTemperature()
     def BaroH(self):
         """Returns barometer humidity in hPa"""
-        return self.droneio.readHumidity()      
+        return self.droneio.readHumidity()
+    def setMotor(self, motorid, percent):
+        """Sets a motor's duty cycle in percent from 0% to 100%. The motorid value is a numerical id that notates which motor should be selected for the speed setting. 1 is Front Left, 2 is Front Right, 3 is Back Left, 4 is Back Right."""
+        if motorid == "1":
+            self.motorone = percent
+        if motorid == "2":
+            self.motortwo = percent
+        if motorid == "3":
+            self.motorthree = percent
+        if motorid == "4":
+            self.motorfour = percent
+        calcfloat = percent / 100
+        calctime = calcfloat * 20
+        self.droneio.setPWM(motorid, calctime)
+        return
+    def getMotor(self, motorid):
+        if motorid == "1":
+            return self.motorone
+        if motorid == "2":
+            return self.motortwo
+        if motorid == "3":
+            return self.motorthree
+        if motorid == "4":
+            return self.motorfour
