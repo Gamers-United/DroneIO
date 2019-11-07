@@ -38,4 +38,4 @@ while True:
 
 
     #wait 1/100th of a second between executions:
-    time.sleep(0.01 - ((time.time() - starttime) % 60.0))
+    time.sleep(0.1 - ((time.time() - starttime) % 60.0))
