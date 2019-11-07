@@ -6,7 +6,7 @@ import socket
 from twisted.internet import task, reactor
 # setup all variables, functions / one time setup:
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_address = ('localhost', 5555)
+server_address = ('192.168.1.84', 10000)
 print("Starting up on "+str(server_address))
 sock.bind(server_address)
 timeout = 0.01
