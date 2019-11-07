@@ -181,11 +181,17 @@ class DroneControl:
         """Returns barometer pressure in hPa"""
         return self.droneio.readBarometer()
     def BaroT(self):
-        """Returns barometer temperature in hPa"""
+        """Returns barometer temperature in degrees Celcius"""
         return self.droneio.readTemperature()
     def BaroH(self):
-        """Returns barometer humidity in hPa"""
+        """Returns barometer humidity"""
         return self.droneio.readHumidity()
+    def GyroRoll(self):
+        """Returns current roll in degrees"""
+        return self.droneio.readKalmanRoll()
+    def GyroPitch(self):
+        """Returns current pitch in degrees"""
+        return self.droneio.readKalmanPitch()
     def setMotor(self, motorid, percent):
         """Sets a motor's duty cycle in percent from 0% to 100%. The motorid value is a numerical id that notates which motor should be selected for the speed setting. 1 is Front Left, 2 is Front Right, 3 is Back Left, 4 is Back Right."""
         if motorid == "1":
@@ -201,6 +207,7 @@ class DroneControl:
         self.droneio.setPWM(motorid, calctime)
         return
     def getMotor(self, motorid):
+        """Get's current motors duty cycle in percent. Returns as a integer between 0 and 100"""
         if motorid == "1":
             return self.motorone
         if motorid == "2":
@@ -209,3 +216,11 @@ class DroneControl:
             return self.motorthree
         if motorid == "4":
             return self.motorfour
+
+
+
+
+
+
+
+
