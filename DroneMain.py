@@ -11,8 +11,8 @@ print("Starting up on "+str(server_address))
 sock.bind(server_address)
 timeout = 0.01
 sock.listen(1)
-i=1000
-while i>=0:
+i=100
+while i > 0:
     print("Waiting For Connection")
     connection, client_address = sock.accept()
     i = i - 1
@@ -39,8 +39,8 @@ def DKey():
 starttime=time.time()
 # begin function loop
 def MainLoop():
-    incoming = sock.recv(2)
-    print("Received MSG: %s" % incoming)
+    incoming = sock.recv(64)
+    print("Received MSG: %s" % incoming.decode('utf-8'))
 
 
 #begin MainLoop cycle
