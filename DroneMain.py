@@ -10,7 +10,7 @@ server_address = ('192.168.1.84', 10000)
 print("Starting up on "+str(server_address))
 sock.bind(server_address)
 timeout = 0.01
-sock.listen(1)
+sock.listen(2)
 connection, client_address = sock.accept()
 
 #called when W key pressed on controlling computer
@@ -35,7 +35,7 @@ def DKey():
 starttime=time.time()
 # begin function loop
 def MainLoop():
-    incoming = sock.recv(64)
+    incoming = connection.recv(1024)
     print("Received MSG: %s" % incoming.decode('utf-8'))
 
 
