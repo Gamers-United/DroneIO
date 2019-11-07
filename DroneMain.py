@@ -9,6 +9,8 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_address = ('localhost', 5555)
 sock.bind(server_address)
 timeout = 0.01
+sock.listen(1)
+connection, client_address = sock.accept()
 
 #called when W key pressed on controlling computer
 def WKey():
@@ -32,7 +34,7 @@ def DKey():
 starttime=time.time()
 # begin function loop
 def MainLoop():
-    incoming = sock.recv()
+    incoming = sock.recv(2)
     print("Received MSG: %s" % incoming)
 
 
