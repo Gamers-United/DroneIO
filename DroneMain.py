@@ -3,6 +3,7 @@ import DroneIO
 import time
 import sys
 import socket
+import math
 from twisted.internet import task, reactor
 # setup all variables, functions / one time setup:
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
