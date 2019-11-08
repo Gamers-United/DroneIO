@@ -7,7 +7,7 @@ import math
 from twisted.internet import task, reactor
 # setup all variables, functions / one time setup:
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_address = ('192.168.1.84', 10000)
+server_address = ('127.0.0.1', 10000)
 print("Starting up on "+str(server_address))
 sock.bind(server_address)
 timeout = 0.01
@@ -17,39 +17,39 @@ drone = DroneIO.DroneControl()
 
 
 #called when W key pressed on controlling computer
-def WKey():
+def WKey(drone):
 
     return
 #called when S key pressed on controlling computer
-def SKey():
+def SKey(drone):
 
     return
 #called when A key pressed on controlling computer
-def AKey():
+def AKey(drone):
 
     return
 #called when D key pressed on controlling computer
-def DKey():
+def DKey(drone):
 
     return
 #called when Z key pressed on controlling computer
-def ZKey():
+def ZKey(drone):
 
     return
 #called when X key pressed on controlling computer
-def XKey():
+def XKey(drone):
 
     return
 #For Processing Accelerometer data
-def processAccel():
+def processAccel(drone):
 
     return
 #For Processing Gyro data
-def processGyro():
+def processGyro(drone):
 
     return
 #For Processing Barometer data
-def processBaro():
+def processBaro(drone):
 
     return
 
@@ -62,17 +62,17 @@ def MainLoop():
     message = incoming.decode('utf-8')
     #check all keys pressed
     if message == "w":
-        WKey()
+        WKey(drone)
     if message == "a":
-        AKey()
+        AKey(drone)
     if message == "s":
-        SKey()
+        SKey(drone)
     if message == "d":
-        DKey()
+        DKey(drone)
     if message == "x":
-        XKey()
+        XKey(drone)
     if message == "z":
-        ZKey()
+        ZKey(drone)
     processGyro(drone)
     processAccel(drone)
     processBaro(drone)
