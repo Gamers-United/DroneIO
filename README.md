@@ -21,3 +21,5 @@ Welcome to DroneIO's documentation!
     8. https://github.com/adafruit/Adafruit_Python_PCA9685/tree/master/Adafruit_PCA9685
 
     The Kalman filter algorithim used is extremly heavily based on the linked library above.
+    
+    Note that this is the non-runnable windows version of the code, while Gamers-United/DroneIO is the runnable code, ready for use on the     RPi.
