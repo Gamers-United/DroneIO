@@ -22,4 +22,4 @@ Welcome to DroneIO's documentation!
 
     The Kalman filter algorithim used is extremly heavily based on the linked library above.
     
-    Note that this is the non-runnable windows version of the code, while Gamers-United/DroneIO is the runnable code, ready for use on the     RPi.
+    Note that this is the runnable linux version of the code, while Mac898/DroneIO is the windows test enviroment/documentation correct repo.
