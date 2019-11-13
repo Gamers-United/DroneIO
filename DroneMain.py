@@ -16,28 +16,52 @@ connection, client_address = sock.accept()
 drone = DroneIO.DroneControl()
 
 
-#called when W key pressed on controlling computer
+#called when W key pressed on controlling computer - Forwards (Axis Forward-Back X)
 def WKey(drone):
 
     return
-#called when S key pressed on controlling computer
+#called when S key pressed on controlling computer - Right (Axis Left-Right Z)
 def SKey(drone):
 
     return
-#called when A key pressed on controlling computer
+#called when A key pressed on controlling computer - Left (Axis Left-Right Z)
 def AKey(drone):
 
     return
-#called when D key pressed on controlling computer
+#called when D key pressed on controlling computer - Backwards (Axis Forward-Back X)
 def DKey(drone):
 
     return
-#called when Z key pressed on controlling computer
+#called when Z key pressed on controlling computer - Drone Down (Axis Forward-Back Y)
 def ZKey(drone):
 
     return
-#called when X key pressed on controlling computer
+#called when X key pressed on controlling computer - Drone Up (Axis Forward-Back Y)
 def XKey(drone):
+
+    return
+#called when Q key pressed on controlling computer - Spin Left (Rotation XY - <XOY )
+def QKey(drone):
+
+    return
+#called when E key pressed on controlling computer - Spin Right (Rotation XY - <XOY )
+def EKey(drone):
+
+    return
+#called when Left Arrow key pressed on controlling computer - Roll Left (Rotation ZY - <ZOY )
+def LAKey(drone):
+
+    return
+#called when Right Arrow key pressed on controlling computer - Roll Right (Rotation ZY - <ZOY )
+def RAKey(drone):
+
+    return
+#called when Up Arrow key pressed on controlling computer - Pitch Up (Rotation ZX - <ZOX )
+def UAKey(drone):
+
+    return
+#called when Down Arrow key pressed on controlling computer - Pitch Down (Rotation ZX - <ZOX )
+def DAKey(drone):
 
     return
 #For Processing Accelerometer data
@@ -73,6 +97,18 @@ def MainLoop():
         XKey(drone)
     if message == "z":
         ZKey(drone)
+    if message == "q":
+        QKey(drone)
+    if message == "e":
+        EKey(drone)
+    if message == "la":
+        LAKey(drone)
+    if message == "ra":
+        RAKey(drone)
+    if message == "ua":
+        UAKey(drone)
+    if message == "da":
+        DAKey(drone)
     processGyro(drone)
     processAccel(drone)
     processBaro(drone)
