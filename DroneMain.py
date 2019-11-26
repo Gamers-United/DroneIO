@@ -15,7 +15,13 @@ sock.listen(2)
 connection, client_address = sock.accept()
 drone = DroneIO.DroneControl()
 
-
+#creating variables for the motor percentages
+fl = 0 #front left
+fr = 0 #front right
+bl = 0 #etc
+br = 0 
+#Coefficent of motor speed (Changes setting of motors based on the drone weight/thrust ration) Note 4000 is the thrust
+coeffientThrust = (500/4000)*2
 #called when W key pressed on controlling computer - Forwards (Axis Forward-Back X)
 def WKey(drone):
 
@@ -65,15 +71,7 @@ def DAKey(drone):
 
     return
 #For Processing Accelerometer data
-def processAccel(drone):
-
-    return
-#For Processing Gyro data
-def processGyro(drone):
-
-    return
-#For Processing Barometer data
-def processBaro(drone):
+def motorControl(drone):
 
     return
 
@@ -109,9 +107,7 @@ def MainLoop():
         UAKey(drone)
     if message == "da":
         DAKey(drone)
-    processGyro(drone)
-    processAccel(drone)
-    processBaro(drone)
+    motorControl(drone)
 
 #begin MainLoop cycle
 taskloop = task.LoopingCall(MainLoop)
