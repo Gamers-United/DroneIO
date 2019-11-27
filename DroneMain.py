@@ -21,7 +21,13 @@ fr = 0 #front right
 bl = 0 #etc
 br = 0 
 #Coefficent of motor speed (Changes setting of motors based on the drone weight/thrust ration) Note 4000 is the thrust
-coeffientThrust = (500/4000)*2
+thrustWeight = (500/4000)*2
+# Array controlling thrust each system has jurisdiction over 1st is up/down, 2nd is yaw, 3rd is roll and 4th is SAS.
+controlJur = {"upDown":0.6,"yaw":0.1,"roll":0.2,"SAS":0.1}
+# Array controlling thrust modifications by the systems
+thrustMod = {"upDown":0,"yaw":0,"roll":0,"SAS":0}
+#(1/(1 - upDown)) * Control Jur values that are not upDown
+
 #called when W key pressed on controlling computer - Forwards (Axis Forward-Back X)
 def WKey(drone):
 
@@ -70,10 +76,35 @@ def UAKey(drone):
 def DAKey(drone):
 
     return
-#For Processing Accelerometer data
-def motorControl(drone):
+def upDown(drone):
 
     return
+def yaw(drone):
+
+    return
+def roll(drone):
+
+    return
+
+def SAS(drone):
+
+    return
+def getMotorValues(drone, thrustWeight,controlJur,thrustMod,x,i):
+
+
+    return
+#For Processing Accelerometer data
+def motorControl(drone,thrustWeight,controlJur,thrustMod):
+x = 0
+upDown(drone)
+yaw(drone)
+roll(drone)
+SAS(drone)
+for i in range(1,4)
+  x = 0
+  getMotorValues(drone,thrustWeight,controlJur,thrusMod,x,i)
+  
+ return
 
 #store starting time
 starttime=time.time()
@@ -107,7 +138,7 @@ def MainLoop():
         UAKey(drone)
     if message == "da":
         DAKey(drone)
-    motorControl(drone)
+    motorControl(drone,thrustWeight,controlJur,thrustMod)
 
 #begin MainLoop cycle
 taskloop = task.LoopingCall(MainLoop)
