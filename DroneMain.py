@@ -15,13 +15,19 @@ sock.listen(2)
 connection, client_address = sock.accept()
 drone = DroneIO.DroneControl()
 
-#creating variables for the motor percentages
-fl = 0 #front left
-fr = 0 #front right
-bl = 0 #etc
-br = 0 
+
 #Coefficent of motor speed (Changes setting of motors based on the drone weight/thrust ration) Note 4000 is the thrust
-coeffientThrust = (500/4000)*2
+thrustWeight = (500/4000)*2
+# Array controlling thrust each system has jurisdiction over 1st is up/down, 2nd is yaw, 3rd is roll and 4th is SAS.
+controlJur = {"upDown":0.6,"yaw":0.1,"roll":0.2,"SAS":0.1}
+# Array controlling thrust modifications by the systems
+thrustArray = {"frontLeft":{"upDown":0,"yaw":0,"roll":0,"SAS":0},
+"frontRight":{"upDown":0,"yaw":0,"roll":0,"SAS":0,},
+"backLeft": {"upDown":0,"yaw":0,"roll":0,"SAS":0,},
+"backRight": {"upDown":0,"yaw":0,"roll":0,"SAS":0,},
+}
+moddedThrust = {"upDown":0, "yaw":0, "roll":0, "SAS":0}
+
 #called when W key pressed on controlling computer - Forwards (Axis Forward-Back X)
 def WKey(drone):
 
@@ -70,15 +76,66 @@ def UAKey(drone):
 def DAKey(drone):
 
     return
+def upDown(drone):
+
+    return
+def yaw(drone):
+
+    return
+def roll(drone):
+
+    return
+
+def SAS(drone):
+
+    return
+def getMotorValues(drone, thrustWeight,controlJur,thrustMod,x,i,moddedThrust):
+    if i == 1:
+     m = thrustArray['frontLeft']
+    elif i == 2:
+        m = thrustArray['frontRight']
+
+    elif i == 3:
+        m = thrustArray['backLeft']
+
+    else:
+        m = thrustArray['backRight']
+
+    moddedThrust[upDown] = m[upDown] * controlJur[upDown] * thrustWeight
+    moddedThrust[yaw] = m[yaw]*controlJur[yaw]*thrustWeight
+    moddedThrust[roll] = m[roll]*controlJur[roll]*thrustWeight
+    moddedThrust[SAS] = m[SAS]*controlJur[SAS]*thrustWeight
+    x = (moddedThrust[upDown] + moddedThrust[yaw] + moddedThrust[roll] + moddedThrust[SAS])
+    if x > 100:
+        r = (x - 100)/3
+    else:
+        r = 0
+    moddedThrust[yaw] = moddedThrust[yaw] - r
+    moddedThrust[roll] = moddedThrust[roll] - r
+    moddedThrust[SAS] = moddedThrust[SAS] - r
+ 
+    x = (moddedThrust[upDown] + moddedThrust[yaw] + moddedThrust[roll] + moddedThrust[SAS])
+  
+
+    return
 #For Processing Accelerometer data
-def motorControl(drone):
+def motorControl(drone,thrustWeight,controlJur,thrustMod,moddedThrust):
+    x = 0
+    upDown(drone)
+    yaw(drone)
+    roll(drone)
+    SAS(drone)
+    for i in range(1,4):
+        x = 0
+        getMotorValues(drone,thrustWeight,controlJur,thrustMod,x,i,moddedThrust)
+        drone.setMotor(i,x)
 
     return
 
 #store starting time
 starttime=time.time()
 # begin function loop
-def MainLoop():
+def MainLoop(thrustWeight, thrustMod):
     incoming = connection.recv(1024)
     print("Received MSG: %s" % incoming.decode('utf-8'))
     message = incoming.decode('utf-8')
@@ -107,7 +164,7 @@ def MainLoop():
         UAKey(drone)
     if message == "da":
         DAKey(drone)
-    motorControl(drone)
+    motorControl(drone,thrustWeight,controlJur,thrustMod,moddedThrust)
 
 #begin MainLoop cycle
 taskloop = task.LoopingCall(MainLoop)
