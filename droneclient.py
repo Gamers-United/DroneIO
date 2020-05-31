@@ -26,5 +26,24 @@ while True:
     if keyboard.is_pressed('x'):
         print("Button X Pressed")
         sock.send("x".encode('utf-8'))
+    if keyboard.is_pressed('q'):
+        sock.send("q".encode('utf-8'))
+        print("Button Q Pressed")
+    if keyboard.is_pressed('e'):
+        print("Button E Pressed")
+        sock.send("e".encode('utf-8'))
+    if keyboard.is_pressed('left'):
+        print("Button Left Arrow Pressed")
+        sock.send("la".encode('utf-8'))
+    if keyboard.is_pressed('right'):
+        print("Button Right Arrow Pressed")
+        sock.send("ra".encode('utf-8'))
+    if keyboard.is_pressed('up'):
+        print("Button Up Arrow Pressed")
+        sock.send("ua".encode('utf-8'))
+    if keyboard.is_pressed('down'):
+        print("Button Down Arrow Pressed")
+        sock.send("da".encode('utf-8'))
     time.sleep(0.1)
 sock.close()
+
