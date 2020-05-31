@@ -1,6 +1,6 @@
 import sys
 import smbus2
-import Adafruit_PCA9685
+import pigpio
 import bme280
 from mpu6050 import mpu6050
 import py_qmc5883l
@@ -8,22 +8,24 @@ import AngleMeterAlpha
 
 class DroneIO:
     """The Drone IO class is the low level class that provides consolidated low level control methods for use in the higher level DroneControl & Filter classes. It is includes methods for control of all underlying drone componenets. 
-       mpuadd is the mpu6050 address in hex format 0x**, same with qmcadd, bmeadd and pwmadd. pwmadd is the PCA9685 address. PWM frequency is equivalent to the pwm frequency in hz. Do not add hz to the input."""
-    def __init__(self, mpuadd, qmcadd, bmeadd, pwmadd, pwmfrequency):
+       mpuadd is the mpu6050 address in hex format 0x**, same with qmcadd and bmeadd. PWM frequency is equivalent to the pwm frequency in hz. Do not add hz to the input."""
+    def __init__(self, mpuadd, qmcadd, bmeadd, pwmfrequency):
         self.mpuaddress = mpuadd
         self.qmcaddress = qmcadd
         self.bmeaddress = bmeadd
-        self.pwmaddress = pwmadd
         self.qmcpollingrate = py_qmc5883l.ODR_50HZ
         self.i2cport = 1
         #connect to IC's
         #adafruit pca9685
-        self.pwm = Adafruit_PCA9685.PCA9685(address=self.pwmaddress)
-        self.pwm.set_pwm_freq(pwmfrequency)
-        self.pwm.set_pwm(0, 0, 360)
-        self.pwm.set_pwm(1, 0, 360)
-        self.pwm.set_pwm(2, 0, 360)
-        self.pwm.set_pwm(3, 0, 360)
+        self.pwm = pigpio.pi()
+        self.pwm.set_PWM_frequency(17, pwmfrequency)
+        self.pwm.set_PWM_frequency(27, pwmfrequency)
+        self.pwm.set_PWM_frequency(22, pwmfrequency)
+        self.pwm.set_PWM_frequency(23, pwmfrequency)
+        self.pwm.set_PWM_range(17, 5000)
+        self.pwm.set_PWM_range(27, 5000)
+        self.pwm.set_PWM_range(22, 5000)
+        self.pwm.set_PWM_range(23, 5000)
         self.mpuaccelrange = mpu6050.ACCEL_RANGE_4G
         #bme280
         self.bus = smbus2.SMBus(self.i2cport)
@@ -133,9 +135,9 @@ class DroneIO:
         data = bme280.sample(self.bus, self.bmeaddress, self.bmecalibration_params)
         return data.humidity
     def setPWM(self, gpio, time):
-        "Set a PWM pin's on time in ms. gpio is the output pin of the PCA-9685 to use, 1-16 and the time is the ontime in ms. Ontime's between 1 and 20 ms are supported. 1ms is no throttle, 20ms full throttle."
-        maxNum = time / (1000000/4096/60)
-        self.pwm.set_pwm(gpio, 0, maxNum)
+        "Set a PWM pin's on time in ms. gpio is the output pin of the RPI to use, [17,27,22,23] and the time is the ontime in ms. A float between 0 and 1 for throttle. Hold the float at 0.05 to arm motors."
+        maxNum = 5000 * time
+        self.pwm.set_PWM_dutycycle(gpio, maxNum)
         print("Motor at Pin "+gpio+" is at duty cycle 0 to "+maxNum)
         return
 
@@ -145,13 +147,12 @@ class DroneControl:
         self.mpuadd = 0x68
         self.qmcadd = 0x0D
         self.bmeadd = 0x76
-        self.pcaadd = 0x40
         self.pwmfrequency = 50
         self.motorone = 0
         self.motortwo = 0
         self.motorthree = 0
         self.motorfour = 0
-        self.droneio = DroneIO(self.mpuadd, self.qmcadd, self.bmeadd, self.pcaadd, self.pwmfrequency)
+        self.droneio = DroneIO(self.mpuadd, self.qmcadd, self.bmeadd, self.pwmfrequency)
 
     def AccelX(self):
         """Returns Accelerometer X Value in m/s^2"""
@@ -193,28 +194,27 @@ class DroneControl:
         """Returns current pitch in degrees"""
         return self.droneio.readKalmanPitch()
     def setMotor(self, motorid, percent):
-        """Sets a motor's duty cycle in percent from 0% to 100%. The motorid value is a numerical id that notates which motor should be selected for the speed setting. 1 is Front Left, 2 is Front Right, 3 is Back Left, 4 is Back Right."""
-        if motorid == "1":
+        """Sets a motor's duty cycle in percent from 0% to 100% (in the form of a float between 0 and 1). The motorid value is a numerical id that notates which motor should be selected for the speed setting. 1 is Front Left, 2 is Front Right, 3 is Back Left, 4 is Back Right."""
+        if motorid == "17":
             self.motorone = percent
-        if motorid == "2":
+        if motorid == "27":
             self.motortwo = percent
-        if motorid == "3":
+        if motorid == "22":
             self.motorthree = percent
-        if motorid == "4":
+        if motorid == "23":
             self.motorfour = percent
-        calcfloat = percent / 100
-        calctime = calcfloat * 20
+        calctime = percent
         self.droneio.setPWM(motorid, calctime)
         return
     def getMotor(self, motorid):
         """Get's current motors duty cycle in percent. Returns as a integer between 0 and 100"""
-        if motorid == "1":
+        if motorid == "17":
             return self.motorone
-        if motorid == "2":
+        if motorid == "27":
             return self.motortwo
-        if motorid == "3":
+        if motorid == "22":
             return self.motorthree
-        if motorid == "4":
+        if motorid == "23":
             return self.motorfour
 
 
