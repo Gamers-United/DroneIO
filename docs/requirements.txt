@@ -20,4 +20,4 @@ smbus2==0.3.0
 Adafruit_PCA9685==1.0.1
 RPi.bme280==0.2.3
 sphinx_rtd_theme==0.4.3
-twisted==19.7.0
+twisted==20.3.0
